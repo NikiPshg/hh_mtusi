@@ -13,28 +13,29 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-x-diamond-fill" viewBox="0 0 16 16">
                     <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L4.047 3.339 8 7.293l3.954-3.954L9.049.435zm3.61 3.611L8.708 8l3.954 3.954 2.904-2.905c.58-.58.58-1.519 0-2.098l-2.904-2.905zm-.706 8.614L8 8.708l3.954 3.954 2.905-2.904c.58-.58.58-1.519 0-2.098l-2.905-2.904zm-8.614-.706L7.292 8l-3.954 3.954-2.905-2.904c-.58-.58-1.519-.58-2.098 0l-2.905 2.904zm-.706-8.614L8 .708l3.954-3.954-2.905-2.904c-.58-.58-1.519-.58-2.098 0L.435 6.951z"/>
                 </svg>
-                <span class="fs-4">Job Search</span>
             </a>
+            <span class="d-flex fs-4 display: flex justify-content: centerr"> Job Search</span>
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
                 <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/">Home</a>
                 <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="">Support</a>
             </nav>
         </div>
     </header>
-    <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
-        <div class="list-group-item rounded-3 py-3">
+    <div class="container">
+        <div class="row">
             {% if keyword %}
                 <p class="list-group-item rounded-3 py-3 mb-4 fs-5">Showing results for: <strong>{{ keyword }}</strong></p>
             {% endif %}
-            <ul class="list-group">
-                {% for vacancy in vacancies %}
-                    <li class="list-group-item rounded-3 py-3 border border-primary mb-3">
+            {% for vacancy in vacancies %}
+                <div class="col-md-4 mb-3">
+                    <div class="list-group-item rounded-3 py-3 border border-primary px-4">
                         <a href="{{ vacancy.url }}" target="_blank">{{ vacancy.name }}</a><br>
                         <strong>Company:</strong> {{ vacancy.company }}<br>
-                        <strong>Published at:</strong> {{ vacancy.published_at }}
-                    </li>
-                {% endfor %}
-            </ul>
+                        <strong>Salary:</strong> {{ vacancy.salary }} <br>
+                        <strong>Published at:</strong> {{ vacancy.published_at }}<br>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </body>
