@@ -8,6 +8,7 @@ django = "*"
 django-cors-headers = "*"
 whitenoise = "*"
 requests = "*"
+fake-useragent = "*"
 
 [dev-packages]
 ipykernel = "*"

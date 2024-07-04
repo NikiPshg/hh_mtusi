@@ -20,5 +20,5 @@ def vacancy_list(request):
     if keyword:
         fetch_and_save_vacancies(keyword)  # Получаем и сохраняем вакансии, если ключевое слово задано
 
-    vacancies = Vacancy.objects.all().order_by('-id')[:20]  # Получаем все вакансии из базы данных
+    vacancies = Vacancy.objects.all().order_by('-id')[:10]  # Получаем все вакансии из базы данных
     return render(request, 'hhapp/vacancy_list.html', {'vacancies': vacancies, 'keyword': keyword})
