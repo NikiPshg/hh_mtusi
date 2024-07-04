@@ -11,15 +11,18 @@ def chek_salary(item):
     except:
         return 1.0
 
-
-def get_response(keyword:str, area:int , per_page:int=20):
+#получение response c api
+def get_response(keyword:str,
+                area:int,
+                per_page:int=20):
+    
     ua = UserAgent()
     url = 'https://api.hh.ru/vacancies/'
     params = {
         'text': keyword,
         'page': random.randint(0,5),
         'per_page': per_page,
-        'area': area
+        'area': area,
     }
     random_user_agent = ua.random
     headers = {'User-Agent': random_user_agent}
@@ -27,7 +30,16 @@ def get_response(keyword:str, area:int , per_page:int=20):
     return response 
 
 
-def save_to_db(hh_id:int , name:str , company:str , salary:int , url , published_at , area:int):
+def save_to_db( hh_id:int,
+                name:str,
+                employment:str,
+                company:str,
+                salary:int,
+                url,
+                published_at,
+                area:int):
+
+    #добавление в бд
     Vacancy.objects.update_or_create(hh_id=hh_id,
                                     defaults={
                                     'name': name,
@@ -35,9 +47,11 @@ def save_to_db(hh_id:int , name:str , company:str , salary:int , url , published
                                     'salary' :salary,
                                     'url': url,
                                     'published_at': published_at,
+                                    'employment' : employment,
                                     'area' : area})
     
-
+    
+#добавление response в бд 
 def receiving_data_from_response(response):
     data = response.json()
     for item in data['items']:
@@ -47,12 +61,15 @@ def receiving_data_from_response(response):
         salary = chek_salary(item)
         url = item['alternate_url']
         published_at = item['published_at']
+        employment = item['employment']['name'] 
         area = item['area']['id']
-        save_to_db(hh_id , name , company , salary , url , published_at , area)
+        save_to_db(hh_id, name, employment, company,salary, url, published_at, area)
 
- 
+
 def fetch_and_save_vacancies(keyword , area:1):
     response = get_response(keyword,area)
     receiving_data_from_response(response)
+
+
     
 

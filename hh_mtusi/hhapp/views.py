@@ -18,7 +18,6 @@ def home(request):
 def vacancy_list(request):
     keyword = request.GET.get('keyword', '')
     area = request.GET.get('area', 1)  # Получаем ключевое слово из GET-параметра
-    print(area)
     if keyword:
         fetch_and_save_vacancies(keyword=keyword,
                                  area=area )  # Получаем и сохраняем вакансии, если ключевое слово задано
