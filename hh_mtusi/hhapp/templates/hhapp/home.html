@@ -28,8 +28,11 @@
         <form method="post" class="lead text-center">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-lg btn-outline-dark fw-bold">
+            <button type="submit" name="search_button" class="btn btn-lg btn-outline-dark fw-bold">
                 Search
+            </button>
+            <button type="submit" name="search_in_db_button" class="btn btn-lg btn-outline-dark fw-bold">
+                Search in db
             </button>
         </form>
     </div>
