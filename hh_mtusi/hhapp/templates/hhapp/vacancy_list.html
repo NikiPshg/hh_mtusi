@@ -5,6 +5,9 @@
 </head>
 <body>
     <h1>Vacancies</h1>
+    {% if keyword %}
+        <p>Showing results for: <strong>{{ keyword }}</strong></p>
+    {% endif %}
     <ul>
         {% for vacancy in vacancies %}
             <li>
@@ -16,5 +19,6 @@
             </li>
         {% endfor %}
     </ul>
+    <a href="/">Search again</a>
 </body>
 </html>

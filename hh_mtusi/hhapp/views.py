@@ -15,7 +15,10 @@ def home(request):
     return render(request, 'hhapp/home.html', {'form': form})
 
 def vacancy_list(request):
-    keyword = request.GET.get('keyword', 'Python')  # Получаем ключевое слово из GET-параметра
-    fetch_and_save_vacancies(keyword)  # Получаем и сохраняем вакансии
-    vacancies = Vacancy.objects.all()  # Получаем все вакансии из базы данных
-    return render(request, 'hhapp/vacancy_list.html', {'vacancies': vacancies})
+    keyword = request.GET.get('keyword', '')  # Получаем ключевое слово из GET-параметра
+
+    if keyword:
+        fetch_and_save_vacancies(keyword)  # Получаем и сохраняем вакансии, если ключевое слово задано
+
+    vacancies = Vacancy.objects.all().order_by('-id')[:20]  # Получаем все вакансии из базы данных
+    return render(request, 'hhapp/vacancy_list.html', {'vacancies': vacancies, 'keyword': keyword})
