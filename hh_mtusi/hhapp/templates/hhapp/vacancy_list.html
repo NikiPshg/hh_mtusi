@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vacancies</title>
+</head>
+<body>
+    <h1>Vacancies</h1>
+    <ul>
+        {% for vacancy in vacancies %}
+            <li>
+                <a href="{{ vacancy.url }}" target="_blank">{{ vacancy.name }}</a>
+                <br>
+                <strong>Company:</strong> {{ vacancy.company }}
+                <br>
+                <strong>Published at:</strong> {{ vacancy.published_at }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

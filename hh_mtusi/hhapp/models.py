@@ -1,14 +1,15 @@
 from django.db import models
-from django.utils import timezone
 
+class Vacancy(models.Model):
+    hh_id = models.CharField(max_length=100, unique=True)  # ID вакансии на hh.ru
+    name = models.CharField(max_length=255)  # Название вакансии
+    company = models.CharField(max_length=255)  # Название компании
+    url = models.URLField()  # URL вакансии
+    published_at = models.DateTimeField()  # Дата публикации
 
-class Hh_info(models.Model):
-    title = models.CharField(max_length=200)
-    content = models.TextField()
-    date_created = models.DateTimeField(default=timezone.now)
-
-    def __str__(self) -> str:
-        return self.title
+    def __str__(self):
+        return self.name
     
     class Meta:
-        verbose_name_plural = "Hh_infos"
+        verbose_name = "Vacancy"
+        verbose_name_plural = "Vacancs"
