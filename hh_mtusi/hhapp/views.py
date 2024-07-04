@@ -9,16 +9,23 @@ def home(request):
         form = SearchForm(request.POST)
         if form.is_valid():
             keyword = form.cleaned_data['keyword']
-            return HttpResponseRedirect(f'/vacancies/?keyword={keyword}')
+            area =  form.cleaned_data['area']
+            return HttpResponseRedirect(f'/vacancies/?keyword={keyword}&area={area}')
     else:
         form = SearchForm()
     return render(request, 'hhapp/home.html', {'form': form})
 
 def vacancy_list(request):
-    keyword = request.GET.get('keyword', '')  # Получаем ключевое слово из GET-параметра
-
+    keyword = request.GET.get('keyword', '')
+    area = request.GET.get('area', 1)  # Получаем ключевое слово из GET-параметра
+    print(area)
     if keyword:
-        fetch_and_save_vacancies(keyword)  # Получаем и сохраняем вакансии, если ключевое слово задано
+        fetch_and_save_vacancies(keyword=keyword,
+                                 area=area )  # Получаем и сохраняем вакансии, если ключевое слово задано
 
-    vacancies = Vacancy.objects.all().order_by('-id')[:10]  # Получаем все вакансии из базы данных
-    return render(request, 'hhapp/vacancy_list.html', {'vacancies': vacancies, 'keyword': keyword})
+    vacancies = Vacancy.objects.order_by('-id')[:10]
+    return render(request, 'hhapp/vacancy_list.html', {
+                                                        'vacancies': vacancies,
+                                                        'keyword': keyword ,
+                                                        'area' : area,
+                                                        })

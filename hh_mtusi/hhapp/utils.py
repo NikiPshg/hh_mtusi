@@ -11,12 +11,13 @@ def chek_salary(item):
     except:
         return 1.0
 
-def get_response(keyword, per_page=20 , area=1):
+
+def get_response(keyword:str, area:int , per_page:int=20):
     ua = UserAgent()
     url = 'https://api.hh.ru/vacancies/'
     params = {
         'text': keyword,
-        'page': random.randint(0,10),
+        'page': random.randint(0,5),
         'per_page': per_page,
         'area': area
     }
@@ -25,19 +26,17 @@ def get_response(keyword, per_page=20 , area=1):
     response = requests.get(f"{url}", params=params, headers=headers)
     return response 
 
-def save_to_db(hh_id:int , name:str , company:str , salary:int , url , published_at , area):
-    Vacancy.objects.update_or_create(
-            hh_id=hh_id,
-            defaults={
-                'name': name,
-                'company': company,
-                'salary' :salary,
-                'url': url,
-                'published_at': published_at,
-                'area' : area
-            }
-        )
 
+def save_to_db(hh_id:int , name:str , company:str , salary:int , url , published_at , area:int):
+    Vacancy.objects.update_or_create(hh_id=hh_id,
+                                    defaults={
+                                    'name': name,
+                                    'company': company,
+                                    'salary' :salary,
+                                    'url': url,
+                                    'published_at': published_at,
+                                    'area' : area})
+    
 
 def receiving_data_from_response(response):
     data = response.json()
@@ -50,10 +49,10 @@ def receiving_data_from_response(response):
         published_at = item['published_at']
         area = item['area']['id']
         save_to_db(hh_id , name , company , salary , url , published_at , area)
- 
 
-def fetch_and_save_vacancies(keyword):
-    response = get_response(keyword,area=1)
+ 
+def fetch_and_save_vacancies(keyword , area:1):
+    response = get_response(keyword,area)
     receiving_data_from_response(response)
     
 

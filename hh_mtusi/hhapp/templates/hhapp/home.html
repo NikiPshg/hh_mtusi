@@ -17,24 +17,23 @@
                 <span class="fs-4">Job Search</span>
             </a>
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/">Home</a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="">Home</a>
                 <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="">Support</a>
             </nav>
         </div>
     </header>
-
     <main class="px-3 d-flex justify-content-center align-items-center vh-100">
-        <div class="container">
-            <h1 class="text-center">Search Vacancies</h1>
-            <form method="post" class="lead text-center">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-lg btn-outline-dark fw-bold">
-                    Search
-                </button>
-            </form>
-        </div>
-    </main>
+    <div class="container">
+        <h1 class="text-center">Search Vacancies</h1>
+        <form method="post" class="lead text-center">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-lg btn-outline-dark fw-bold">
+                Search
+            </button>
+        </form>
+    </div>
+</main>
 
 </body>
 </html>
