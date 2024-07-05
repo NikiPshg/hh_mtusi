@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vacancies</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        .header-title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -14,10 +22,10 @@
                     <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L4.047 3.339 8 7.293l3.954-3.954L9.049.435zm3.61 3.611L8.708 8l3.954 3.954 2.904-2.905c.58-.58.58-1.519 0-2.098l-2.904-2.905zm-.706 8.614L8 8.708l3.954 3.954 2.905-2.904c.58-.58.58-1.519 0-2.098l-2.905-2.904zm-8.614-.706L7.292 8l-3.954 3.954-2.905-2.904c-.58-.58-1.519-.58-2.098 0l-2.905 2.904zm-.706-8.614L8 .708l3.954-3.954-2.905-2.904c-.58-.58-1.519-.58-2.098 0L.435 6.951z"/>
                 </svg>
             </a>
-            <span class="d-flex fs-4 display: flex justify-content: centerr"> Job Search</span>
+            <span class="header-title fs-4">Job Search</span>
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
                 <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/">Home</a>
-                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="">Support</a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#">Support</a>
             </nav>
         </div>
     </header>
@@ -31,8 +39,9 @@
                     <div class="list-group-item rounded-3 py-3 border border-primary px-4">
                         <a href="{{ vacancy.url }}" target="_blank">{{ vacancy.name }}</a><br>
                         <strong>Company:</strong> {{ vacancy.company }}<br>
-                        <strong>Salary:</strong> {{ vacancy.salary }} <br>
-                        <strong>employment:</strong> {{ vacancy.employment }}<br>
+                        <strong>Salary:</strong> {{ vacancy.salary }}<br>
+                        <strong>Employment:</strong> {{ vacancy.employment }}<br>
+                        <strong>Experience:</strong> {{ vacancy.experience }}<br>
                         <strong>Published at:</strong> {{ vacancy.published_at }}<br>
                     </div>
                 </div>

@@ -9,6 +9,7 @@ class Vacancy(models.Model):
     employment = models.CharField(max_length=255,null=True) #трудозанятость
     url = models.URLField()  # URL вакансии
     published_at = models.DateTimeField()  # Дата публикации
+    experience =models.CharField(max_length=255, null=True)#опыт
 
     def __str__(self):
         return self.name
