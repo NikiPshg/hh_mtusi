@@ -11,17 +11,22 @@ def render_home_from_api(request, form):
         keyword = form.cleaned_data['keyword']
         area =  form.cleaned_data['area']
         experience =  rutext_to_exp.get(form.cleaned_data['experience'] , False )
+        min_salary = form.cleaned_data['min_salary']
         if not(experience):
             return HttpResponseRedirect(f'/vacancies/?keyword={keyword}&area={area}&experience=between1And3')
-        return HttpResponseRedirect(f'/vacancies/?keyword={keyword}&area={area}&experience={experience}')
+        return HttpResponseRedirect(f'/vacancies/?keyword={keyword}&area={area}&experience={experience}&salary_from={min_salary}&only_with_salary=true')
     
 #выдача из db по фильтрам
 def render_home_from_db(request, form):
     if form.is_valid():
         experience =  form.cleaned_data['experience']
         keyword = form.cleaned_data['keyword']
+        min_salary = form.cleaned_data['min_salary']
         area =  citi_to_index.get(form.cleaned_data['area'].lower(), 1)
-        filtered_vacancies = Vacancy.objects.filter(area=area , name__icontains=keyword , experience__icontains = experience)
+        filtered_vacancies = Vacancy.objects.filter(area=area,
+                                                    name__icontains=keyword,
+                                                    salary__gte=min_salary,
+                                                    experience__icontains=experience)
         filtered_vacancies = filtered_vacancies.order_by('-salary')  
         return render(request, 'hhapp/vacancy_list.html',  { 'vacancies': filtered_vacancies })
     
@@ -44,10 +49,13 @@ def vacancy_list(request):
     keyword = request.GET.get('keyword', '')
     area = citi_to_index.get( request.GET.get('area', 1).lower() , 1)   # Получаем ключевое слово из GET-параметра
     experience = request.GET.get('experience', '')
+    min_salary = request.GET.get('min_salary', 0)
     if keyword:
-        fetch_and_save_vacancies(keyword=keyword,
+        count_created , response = fetch_and_save_vacancies(keyword=keyword,
                                  area=area,
-                                 experience=experience)  # Получаем и сохраняем вакансии, если ключевое слово задано
+                                 experience=experience,
+                                 min_salary=min_salary)  # Получаем и сохраняем вакансии, если ключевое слово задано
 
-    vacancies = Vacancy.objects.order_by('-id')[:10]
-    return render(request, 'hhapp/vacancy_list.html', { 'vacancies' : vacancies,})
+    vacancies = Vacancy.objects.order_by('-id')[:count_created]
+
+    return render(request, 'hhapp/vacancy_list.html', { 'vacancies' : vacancies})

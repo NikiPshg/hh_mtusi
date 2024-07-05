@@ -38,16 +38,18 @@ def chek_salary(item):
 def get_response(keyword:str,
                 area:int,
                 experience:str,
+                min_salary:int,
                 per_page:int=20,):
     
     ua = UserAgent()
     url = 'https://api.hh.ru/vacancies/'
     params = {
         'text': keyword,
-        'page': random.randint(0,5),
+        'page': random.randint(0,10),
         'per_page': per_page,
         'area': area,
-        'experience': experience
+        'experience': experience,
+        'salary_from': min_salary,
     }
     random_user_agent = ua.random
     headers = {'User-Agent': random_user_agent}
@@ -66,7 +68,7 @@ def save_to_db( hh_id:int,
                 experience:str):
 
     #добавление в бд
-    Vacancy.objects.update_or_create(hh_id=hh_id,
+    obj, created = Vacancy.objects.update_or_create(hh_id=hh_id,
                                     defaults={
                                     'name': name,
                                     'company': company,
@@ -76,11 +78,14 @@ def save_to_db( hh_id:int,
                                     'published_at': published_at,
                                     'employment' : employment,
                                     'area' : area})
-    
+    return obj, created
     
 #добавление response в бд 
 def receiving_data_from_response(response):
+
     data = response.json()
+    count_created = 0
+
     for item in data['items']:
         hh_id = item['id']
         name = item['name']
@@ -92,21 +97,24 @@ def receiving_data_from_response(response):
         experience = item['experience']['id']
         area = item['area']['id']
 
-        save_to_db( hh_id = hh_id,
-                    name = name,
-                    employment = employment,
-                    company = company,
-                    salary = salary,
-                    experience = exp_to_rutext.get(experience , experience),
-                    url = url,
-                    published_at = published_at,
-                    area = area)
+        obj, created = save_to_db(  hh_id = hh_id,
+                                    name = name,
+                                    employment = employment,
+                                    company = company,
+                                    salary = salary,
+                                    experience = exp_to_rutext.get(experience , experience),
+                                    url = url,
+                                    published_at = published_at,
+                                    area = area)
+        if created:
+            count_created += 1
+    return count_created
 
 
-def fetch_and_save_vacancies(keyword , experience , area:1):
-    response = get_response(keyword,area,experience)
-    receiving_data_from_response(response)
-
+def fetch_and_save_vacancies(keyword , experience , area:1 , min_salary:0):
+    response = get_response(keyword,area,experience,min_salary)
+    count_created = receiving_data_from_response(response)
+    return count_created , response
 
     
 
