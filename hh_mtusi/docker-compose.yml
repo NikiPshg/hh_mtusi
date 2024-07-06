@@ -15,9 +15,6 @@ services:
     environment:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
-    command: 
-          "python manage.py runserver "
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
     networks:
       - networkName
-
-# Specify volumes, networks, and other configurations as needed
