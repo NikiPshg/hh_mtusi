@@ -2,7 +2,7 @@ import requests
 from .models import Vacancy
 import random
 from fake_useragent import UserAgent
-
+import time
 
 exp_to_rutext ={
     "noExperience" : 'Нет опыта',
@@ -114,6 +114,12 @@ def receiving_data_from_response(response):
 def fetch_and_save_vacancies(keyword , experience , area:1 , min_salary:0):
     response = get_response(keyword,area,experience,min_salary)
     count_created = receiving_data_from_response(response)
+
+    while count_created == 0:
+        
+        count_created = receiving_data_from_response(response)
+        time.sleep(3)
+
     return count_created , response
 
     

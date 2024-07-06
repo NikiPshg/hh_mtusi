@@ -47,15 +47,15 @@ def home(request):
 #рендер страницы c вакансиями из hhapi
 def vacancy_list(request):
     keyword = request.GET.get('keyword', '')
-    area = citi_to_index.get( request.GET.get('area', 1).lower() , 1)   # Получаем ключевое слово из GET-параметра
+    area = citi_to_index.get( request.GET.get('area', 'моосква').lower() , 1)  
     experience = request.GET.get('experience', '')
     min_salary = request.GET.get('min_salary', 0)
+    count_created = 3
     if keyword:
         count_created , response = fetch_and_save_vacancies(keyword=keyword,
                                  area=area,
                                  experience=experience,
-                                 min_salary=min_salary)  # Получаем и сохраняем вакансии, если ключевое слово задано
-
+                                 min_salary=min_salary) 
     vacancies = Vacancy.objects.order_by('-id')[:count_created]
 
     return render(request, 'hhapp/vacancy_list.html', { 'vacancies' : vacancies})
