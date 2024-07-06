@@ -32,7 +32,7 @@ def chek_salary(item):
     try:
         return item['salary']['from']
     except:
-        return 1.0
+        return None
 
 #получение response c api
 def get_response(keyword:str,
